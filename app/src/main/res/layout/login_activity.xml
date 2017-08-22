@@ -2,10 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/sepakbola">
 
     <TextView
         android:id="@+id/titleApp"
+        android:textColor="#ffffff"
         android:layout_marginTop="70dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,6 +17,7 @@
 
     <EditText
         android:id="@+id/inputEmail"
+        android:textColor="#ffffff"
         android:layout_gravity="center"
         android:layout_width="300dp"
         android:layout_height="50dp"
@@ -24,6 +27,8 @@
 
     <EditText
         android:id="@+id/inputPassword"
+        android:textColor="#ffffff"
+        android:layout_marginTop="1dp"
         android:layout_gravity="center"
         android:layout_width="300dp"
         android:layout_height="50dp"
@@ -36,6 +41,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
+        android:background="@drawable/my_button"
         android:text="Sign In" />
 
     <com.facebook.login.widget.LoginButton
