@@ -14,6 +14,10 @@ import com.google.gson.GsonBuilder;
 import com.task.basilischi.funjebret.interfaces.FootballAPI;
 import com.task.basilischi.funjebret.models.FootballData;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -40,9 +44,15 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         Gson gson = new GsonBuilder().create();
         String apiKey,from,to,leagueId;
+        Date currentTime = Calendar.getInstance().getTime();
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        from = dateFormatter.format(currentTime);
+        Calendar currentCal = Calendar.getInstance();
+        currentCal.add(Calendar.DATE, 7);
+        to =  dateFormatter.format(currentCal.getTime());
         apiKey = getResources().getString(R.string.api_key);
-        from = getResources().getString(R.string.from);
-        to = getResources().getString(R.string.to);
+        //from = getResources().getString(R.string.from);
+        //to = getResources().getString(R.string.to);
         leagueId = getResources().getString(R.string.league_id);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getResources().getString(R.string.base_url))
