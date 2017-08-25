@@ -1,11 +1,9 @@
 package com.task.basilischi.funjebret;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,34 +17,37 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
-    LoginButton loginButton;
-    CallbackManager callbackManager;
-    Button signin, signup;
-    EditText email,pass;
+    @BindView(R.id.signIn) Button signin;
+    @BindView(R.id.login_button) LoginButton loginButton;
+    @BindView(R.id.signUp) TextView signup;
+    @BindView(R.id.inputEmail) EditText email;
+    @BindView(R.id.inputPassword) EditText pass;
+
+//    @BindView(R.id.titleApp) TextView textView;
+//    Typeface tf;
+
     String emailStr, passStr;
-    TextView textView;
-    Typeface tf;
     DatabaseHelper helper;
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
+
+        ButterKnife.bind(this);
 
         helper = new DatabaseHelper(this);
-        textView = (TextView)findViewById(R.id.titleApp);
-        loginButton = (LoginButton)findViewById(R.id.login_button);
-        signin = (Button)findViewById(R.id.signIn);
-        signup = (Button)findViewById(R.id.signUp);
-        email = (EditText)findViewById(R.id.inputEmail);
-        pass = (EditText)findViewById(R.id.inputPassword);
 
         callbackManager = CallbackManager.Factory.create();
-        tf = Typeface.createFromAsset(getAssets(),"RECOGNITION.ttf");
-        textView.setTypeface(tf);
+        //tf = Typeface.createFromAsset(getAssets(),"RECOGNITION.ttf");
+        //textView.setTypeface(tf);
 
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
