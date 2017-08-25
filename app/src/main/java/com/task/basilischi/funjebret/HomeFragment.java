@@ -3,6 +3,9 @@ package com.task.basilischi.funjebret;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +16,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.task.basilischi.funjebret.interfaces.FootballAPI;
 import com.task.basilischi.funjebret.models.FootballData;
+import com.task.basilischi.funjebret.models.Matches;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -26,16 +31,19 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+    private View view;
+    private List<FootballData> dataList = new ArrayList<>();
+    private List<Matches> matchList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private MatchesAdapter mAdapter;
 
-
-    public HomeFragment() {
-        // Required empty public constructor
-    }
 
 
     @Override
@@ -51,6 +59,13 @@ public class HomeFragment extends Fragment {
         currentCal.add(Calendar.DATE, 7);
         to =  dateFormatter.format(currentCal.getTime());
         apiKey = getResources().getString(R.string.api_key);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mAdapter = new MatchesAdapter(matchList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
         //from = getResources().getString(R.string.from);
         //to = getResources().getString(R.string.to);
         leagueId = getResources().getString(R.string.league_id);
@@ -65,6 +80,8 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<List<FootballData>> call, Response<List<FootballData>> response) {
                 List<FootballData> datas = response.body();
                 for(FootballData m: datas){
+                    Matches matches = new Matches(m.getMatchHometeamName(), m.getMatchAwayteamName(),m.getMatchDate(),m.getLeagueName());
+                    matchList.add(matches);
                     Log.d("Negara : ",m.getCountryName());
                     Log.d("Liga : ",m.getLeagueName());
                     Log.d("Home : ",m.getMatchHometeamName());
@@ -72,6 +89,8 @@ public class HomeFragment extends Fragment {
                     Log.d("Date : ",m.getMatchDate());
                     Log.d("Time : ",m.getMatchTime());
                 }
+                mAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -79,7 +98,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), " response bad " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return view;
     }
 
 }
