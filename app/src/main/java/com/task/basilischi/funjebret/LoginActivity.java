@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -48,6 +50,9 @@ public class LoginActivity extends AppCompatActivity implements MaterialTabListe
             }
         });
 
+        //Set color background tab
+        tabHost.setAccentColor(getResources().getColor(R.color.primary_dark));
+
         //for tab position
         for (int i = 0; i < menuAdapter.getCount(); i++) {
             tabHost.addTab(
@@ -73,7 +78,14 @@ public class LoginActivity extends AppCompatActivity implements MaterialTabListe
         }
     }
 
-        //tab on selected
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    //tab on selected
         @Override
         public void onTabSelected(MaterialTab materialTab) {
 

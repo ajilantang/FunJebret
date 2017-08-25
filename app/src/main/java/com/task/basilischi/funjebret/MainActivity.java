@@ -2,6 +2,7 @@ package com.task.basilischi.funjebret;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 String password = helper.searchPass(passStr);
 
                 if(passStr.equals(password)){
+                    ActivityCompat.finishAffinity(MainActivity.this);
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     intent.putExtra("email",emailStr);
                     startActivity(intent);
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,LoginActivity.class);
                 intent.putExtra("loginStatus", "Your id \n"+ loginResult.getAccessToken().getUserId() +
                         "\n"+"Your Token access \n"+loginResult.getAccessToken().getToken());
+                ActivityCompat.finishAffinity(MainActivity.this);
                 startActivity(intent);
             }
 
