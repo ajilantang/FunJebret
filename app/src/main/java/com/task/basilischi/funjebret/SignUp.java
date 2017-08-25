@@ -2,6 +2,7 @@ package com.task.basilischi.funjebret;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,10 +35,20 @@ public class SignUp extends AppCompatActivity {
                 emailStr = email.getText().toString();
                 passStr = pass.getText().toString();
                 repassStr = repass.getText().toString();
+                Log.d("testtt", "I"+nameStr+" kosong");
                 if(!passStr.equals(repassStr)){
                     Toast passwr = Toast.makeText(SignUp.this, "Password Not Same!!", Toast.LENGTH_SHORT);
                     passwr.show();
-                }else{
+                }else if (nameStr.equals("")) {
+                    Toast.makeText(SignUp.this, "Name don't Empty!!", Toast.LENGTH_SHORT).show();
+                }else if(unameStr.equals("")) {
+                    Toast.makeText(SignUp.this, "User Name don't Empty!!", Toast.LENGTH_SHORT).show();
+                }else if(emailStr.equals("")) {
+                    Toast.makeText(SignUp.this, "Email don't Empty!!", Toast.LENGTH_SHORT).show();
+                }else if(passStr.equals("")) {
+                    Toast.makeText(SignUp.this, "Password don't Empty!!", Toast.LENGTH_SHORT).show();
+                }
+                else{
                     Register register = new Register();
                     register.setName(nameStr);
                     register.setUserName(unameStr);
@@ -50,7 +61,6 @@ public class SignUp extends AppCompatActivity {
                     item.show();
                     finish();
                 }
-
             }
         });
     }

@@ -5,7 +5,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -80,20 +79,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                intent.putExtra("loginStatus", "Your id \n"+ loginResult.getAccessToken().getUserId() +
-                        "\n"+"Your Token access \n"+loginResult.getAccessToken().getToken());
-                ActivityCompat.finishAffinity(MainActivity.this);
+//                intent.putExtra("loginStatus", "Your id \n"+ loginResult.getAccessToken().getUserId() +
+//                        "\n"+"Your Token access \n"+loginResult.getAccessToken().getToken());
                 startActivity(intent);
+                ActivityCompat.finishAffinity(MainActivity.this);
             }
 
             @Override
             public void onCancel() {
-//                textView.setText("Login Failed!!");
+                Toast.makeText(MainActivity.this, "Login Canceled!!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException error) {
-
+                Toast.makeText(MainActivity.this, "No Network Internet!!", Toast.LENGTH_SHORT).show();
             }
         });
     }
