@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 emailStr = email.getText().toString();
                 passStr = pass.getText().toString();
 
-                String password = helper.searchPass(passStr);
+                String password = helper.searchPass(emailStr);
 
                 if(passStr.equals(password)){
                     ActivityCompat.finishAffinity(LoginActivity.this);
