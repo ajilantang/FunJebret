@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     tools:context="com.task.basilischi.funjebret.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
@@ -23,5 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:text="Sign out" />
+
 
 </FrameLayout>
