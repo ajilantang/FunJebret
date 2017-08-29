@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 //    @BindView(R.id.titleApp) TextView textView;
 //    Typeface tf;
 
-    String emailStr, passStr;
+    String emailStr;
     DatabaseHelper helper;
     CallbackManager callbackManager;
     private FirebaseAuth firebaseAuth;
@@ -55,6 +57,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
 
@@ -90,19 +95,42 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 emailStr = email.getText().toString();
-                passStr = pass.getText().toString();
+                final String passStr = pass.getText().toString();
 
-                String password = helper.searchPass(passStr);
-
-                if(passStr.equals(password)){
-                    ActivityCompat.finishAffinity(LoginActivity.this);
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("email",emailStr);
-                    startActivity(intent);
-                }else{
-                    Toast item = Toast.makeText(LoginActivity.this, "Email or Password is Wrong!!", Toast.LENGTH_SHORT);
-                    item.show();
+                if(TextUtils.isEmpty(emailStr)){
+                    email.setError("Enter email address!");
+                }else if(TextUtils.isEmpty(passStr)){
+                    pass.setError("Enter password!");
                 }
+                firebaseAuth.signInWithEmailAndPassword(emailStr, passStr)
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (!task.isSuccessful()) {
+                                    if (passStr.length() < 6) {
+                                        pass.setError("Password too Short!");
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Email or Password is Wrong!", Toast.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                        });
+
+//                String password = helper.searchPass(passStr);
+
+//                if(passStr.equals(password)){
+//                    ActivityCompat.finishAffinity(LoginActivity.this);
+//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                    intent.putExtra("email",emailStr);
+//                    startActivity(intent);
+//                }else{
+//                    Toast item = Toast.makeText(LoginActivity.this, "Email or Password is Wrong!!", Toast.LENGTH_SHORT);
+//                    item.show();
+//                }
             }
         });
 

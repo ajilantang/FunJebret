@@ -1,19 +1,25 @@
 package com.task.basilischi.funjebret;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUp extends AppCompatActivity {
     EditText name, uname, email, pass, repass;
     String nameStr, unameStr, emailStr, passStr, repassStr;
     Button signup;
     DatabaseHelper helper;
-
+    FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,40 +32,49 @@ public class SignUp extends AppCompatActivity {
         repass = (EditText)findViewById(R.id.repass);
         signup = (Button)findViewById(R.id.signup);
         helper = new DatabaseHelper(this);
+        auth = FirebaseAuth.getInstance();
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 nameStr = name.getText().toString();
                 unameStr = uname.getText().toString();
-                emailStr = email.getText().toString();
-                passStr = pass.getText().toString();
+                emailStr = email.getText().toString().trim();
+                passStr = pass.getText().toString().trim();
                 repassStr = repass.getText().toString();
-                Log.d("testtt", "I"+nameStr+" kosong");
-                if(!passStr.equals(repassStr)){
-                    Toast passwr = Toast.makeText(SignUp.this, "Password Not Same!!", Toast.LENGTH_SHORT);
-                    passwr.show();
-                }else if (nameStr.equals("")) {
-                    Toast.makeText(SignUp.this, "Name don't Empty!!", Toast.LENGTH_SHORT).show();
-                }else if(unameStr.equals("")) {
-                    Toast.makeText(SignUp.this, "User Name don't Empty!!", Toast.LENGTH_SHORT).show();
-                }else if(emailStr.equals("")) {
-                    Toast.makeText(SignUp.this, "Email don't Empty!!", Toast.LENGTH_SHORT).show();
-                }else if(passStr.equals("")) {
-                    Toast.makeText(SignUp.this, "Password don't Empty!!", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Register register = new Register();
-                    register.setName(nameStr);
-                    register.setUserName(unameStr);
-                    register.setEmail(emailStr);
-                    register.setPassword(passStr);
 
-                    helper.insertContact(register);
-
-                    Toast item = Toast.makeText(SignUp.this, "Success!!", Toast.LENGTH_SHORT);
-                    item.show();
-                    finish();
+                if (TextUtils.isEmpty(nameStr)) {
+                    name.setError("Name don't Empty!!");
+                }else if(TextUtils.isEmpty(unameStr)) {
+                    uname.setError("User Name don't Empty!!");
+                }else if(TextUtils.isEmpty(emailStr)) {
+                    email.setError("Email don't Empty!!");
+                }else if(TextUtils.isEmpty(passStr)) {
+                    pass.setError("Password don't Empty");
+                }else if(passStr.length() < 6) {
+                    pass.setError("Password too Shrot!");
+                }else if(!passStr.equals(repassStr)){
+                    repass.setError("Password Not Same!");
+                }else {
+                    auth.createUserWithEmailAndPassword(emailStr, passStr)
+                            .addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (!task.isSuccessful()) {
+                                        email.setError("Email Invalid!");
+                                    }else{
+                                        Toast.makeText(SignUp.this, "Signup Success!!", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                }
+                            });
+//                    Register register = new Register();
+//                    register.setName(nameStr);
+//                    register.setUserName(unameStr);
+//                    register.setEmail(emailStr);
+//                    register.setPassword(passStr);
+//
+//                    helper.insertContact(register);
                 }
             }
         });
