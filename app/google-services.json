@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "359541209763",
+    "firebase_url": "https://fun-jebret.firebaseio.com",
+    "project_id": "fun-jebret",
+    "storage_bucket": "fun-jebret.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359541209763:android:614b341e60cb1ae9",
+        "android_client_info": {
+          "package_name": "com.task.basilischi.funjebret"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359541209763-uvo7ggb02946m394l3qclv0r977ppved.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.task.basilischi.funjebret",
+            "certificate_hash": "e4bb428d3618c8cb37d1fa23b6fa2ad6a8430bc7"
+          }
+        },
+        {
+          "client_id": "359541209763-2dd7eir1hn2s6imccv085mvk05l7l82i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqrMNLeMa6QlZge5U7PYBI3OOkq6LqEb8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359541209763-2dd7eir1hn2s6imccv085mvk05l7l82i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

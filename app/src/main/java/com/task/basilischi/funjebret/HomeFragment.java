@@ -1,7 +1,9 @@
 package com.task.basilischi.funjebret;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,8 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.task.basilischi.funjebret.interfaces.FootballAPI;
@@ -96,6 +101,21 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Call<List<FootballData>> call, Throwable t) {
                 Toast.makeText(getContext(), " response bad " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        Button signOut = (Button)view.findViewById(R.id.signOut);
+
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
+                ActivityCompat.finishAffinity(getActivity());
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                Toast.makeText(getActivity(), "Sign Out Success!", Toast.LENGTH_SHORT).show();
             }
         });
         return view;
