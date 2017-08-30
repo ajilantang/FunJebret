@@ -5,13 +5,27 @@
 
     <!-- Query Strings for Football API -->
     <string name="base_url">https://apifootball.com/</string>
-    <!--<string name="api_key">9821be861b0e24b7a8dc51aaec301ec8aeedbd64546d3eeb4c37600c2feacd54</string>-->
-    <!--new api key-->
     <string name="api_key">26e67dffcb33af72be067b1016ba4961db7a4cb0c4fbf19d062b30d8116e8548</string>
     <string name="from">2017-08-21</string>
     <string name="to">2017-08-27</string>
     <string name="action">get_events</string>
-    <string name="league_id">79</string>
+
+    <!-- serie A italia -->
+    <string name="league_id_italy">79</string>
+    <!-- premier league inggris -->
+    <string name="league_id_england">62</string>
+    <!-- liga bbva spanyol -->
+    <string name="league_id_spain">109</string>
+    <!-- bundesliga jerman -->
+    <string name="league_id_germany">117</string>
+    <!-- ligue 1 prancis -->
+    <string name="league_id_france">127</string>
+    <!-- eredivisie belanda -->
+    <string name="league_id_netherland">137</string>
+    <!-- primeira liga portugal -->
+    <string name="league_id_portugal">150</string>
+    <!-- MLS amerika serikat -->
+    <string name="league_id_usa">607</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

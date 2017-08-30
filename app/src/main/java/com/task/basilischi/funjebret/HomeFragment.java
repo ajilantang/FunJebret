@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
         //from = getResources().getString(R.string.from);
         //to = getResources().getString(R.string.to);
-        leagueId = getResources().getString(R.string.league_id);
+        leagueId = getResources().getString(R.string.league_id_england);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getResources().getString(R.string.base_url))
                 .addConverterFactory(GsonConverterFactory.create(gson))
