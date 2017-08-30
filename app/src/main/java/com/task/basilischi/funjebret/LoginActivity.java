@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 //    Typeface tf;
 
     String emailStr;
-    DatabaseHelper helper;
+    //DatabaseHelper helper;
     CallbackManager callbackManager;
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
@@ -56,6 +56,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         setContentView(R.layout.activity_login);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -63,12 +69,12 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        helper = new DatabaseHelper(this);
-        loginButton = (LoginButton)findViewById(R.id.login_button);
-        signin = (Button)findViewById(R.id.signIn);
-        signup = (TextView) findViewById(R.id.signUp);
-        email = (EditText)findViewById(R.id.inputEmail);
-        pass = (EditText)findViewById(R.id.inputPassword);
+//        helper = new DatabaseHelper(this);
+//        loginButton = (LoginButton)findViewById(R.id.login_button);
+//        signin = (Button)findViewById(R.id.signIn);
+//        signup = (TextView) findViewById(R.id.signUp);
+//        email = (EditText)findViewById(R.id.inputEmail);
+//        pass = (EditText)findViewById(R.id.inputPassword);
         firebaseAuth = FirebaseAuth.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 

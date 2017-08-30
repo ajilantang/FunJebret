@@ -5,37 +5,13 @@ package com.task.basilischi.funjebret;
  */
 
 public class Register {
-    String name, uname, email, pass;
+    String token;
 
-    public String getName(){
-        return this.name;
+    public String getToken(){
+        return this.token;
     }
 
-    public void setName(String name){
-        this.name = name;
-    }
-
-    public String getUserName(){
-        return this.uname;
-    }
-
-    public void setUserName(String uname){
-        this.uname = uname;
-    }
-
-    public String getEmail(){
-        return this.email;
-    }
-
-    public void setEmail(String email){
-        this.email = email;
-    }
-
-    public String getPassword(){
-        return this.pass;
-    }
-
-    public void setPassword(String pass){
-        this.pass = pass;
+    public void setToken(String token){
+        this.token = token;
     }
 }
