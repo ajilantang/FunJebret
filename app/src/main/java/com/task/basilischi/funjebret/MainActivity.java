@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         return true;
     }
 
-    //tab on selected
+        //tab on selected
         @Override
         public void onTabSelected(MaterialTab materialTab) {
 

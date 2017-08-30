@@ -18,22 +18,23 @@ public class SignUp extends AppCompatActivity {
     EditText name, uname, email, pass, repass;
     String nameStr, unameStr, emailStr, passStr, repassStr;
     Button signup;
-    DatabaseHelper helper;
     FirebaseAuth auth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
 
+        // set item in sign_up.xml
         name = (EditText)findViewById(R.id.name);
         uname = (EditText)findViewById(R.id.uname);
         email = (EditText)findViewById(R.id.email);
         pass = (EditText)findViewById(R.id.pass);
         repass = (EditText)findViewById(R.id.repass);
         signup = (Button)findViewById(R.id.signup);
-        helper = new DatabaseHelper(this);
         auth = FirebaseAuth.getInstance();
 
+        //button signup
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,13 +69,6 @@ public class SignUp extends AppCompatActivity {
                                     }
                                 }
                             });
-//                    Register register = new Register();
-//                    register.setName(nameStr);
-//                    register.setUserName(unameStr);
-//                    register.setEmail(emailStr);
-//                    register.setPassword(passStr);
-//
-//                    helper.insertContact(register);
                 }
             }
         });
