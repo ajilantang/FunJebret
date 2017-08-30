@@ -18,8 +18,8 @@ public class SignUp extends AppCompatActivity {
     EditText name, uname, email, pass, repass;
     String nameStr, unameStr, emailStr, passStr, repassStr;
     Button signup;
-//    DatabaseHelper helper;
     FirebaseAuth auth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,18 +31,20 @@ public class SignUp extends AppCompatActivity {
         pass = (EditText)findViewById(R.id.pass);
         repass = (EditText)findViewById(R.id.repass);
         signup = (Button)findViewById(R.id.signup);
-//        helper = new DatabaseHelper(this);
         auth = FirebaseAuth.getInstance();
 
+        //button signup
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //get input text
                 nameStr = name.getText().toString();
                 unameStr = uname.getText().toString();
                 emailStr = email.getText().toString().trim();
                 passStr = pass.getText().toString().trim();
                 repassStr = repass.getText().toString();
 
+                //check input text
                 if (TextUtils.isEmpty(nameStr)) {
                     name.setError("Name don't Empty!!");
                 }else if(TextUtils.isEmpty(unameStr)) {
@@ -56,6 +58,7 @@ public class SignUp extends AppCompatActivity {
                 }else if(!passStr.equals(repassStr)){
                     repass.setError("Password Not Same!");
                 }else {
+                    //create account in firebase
                     auth.createUserWithEmailAndPassword(emailStr, passStr)
                             .addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -68,13 +71,6 @@ public class SignUp extends AppCompatActivity {
                                     }
                                 }
                             });
-//                    Register register = new Register();
-//                    register.setName(nameStr);
-//                    register.setUserName(unameStr);
-//                    register.setEmail(emailStr);
-//                    register.setPassword(passStr);
-//
-//                    helper.insertContact(register);
                 }
             }
         });

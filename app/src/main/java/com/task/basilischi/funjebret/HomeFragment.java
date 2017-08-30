@@ -111,9 +111,9 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
                 LoginManager.getInstance().logOut();
-                ActivityCompat.finishAffinity(getActivity());
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
+                ActivityCompat.finishAffinity(getActivity());
                 Toast.makeText(getActivity(), "Sign Out Success!", Toast.LENGTH_SHORT).show();
             }
         });

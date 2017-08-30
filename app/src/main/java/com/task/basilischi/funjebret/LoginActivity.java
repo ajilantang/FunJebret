@@ -42,11 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.inputEmail) EditText email;
     @BindView(R.id.inputPassword) EditText pass;
 
-//    @BindView(R.id.titleApp) TextView textView;
-//    Typeface tf;
-
     String emailStr;
-    //DatabaseHelper helper;
     CallbackManager callbackManager;
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
@@ -56,30 +52,26 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+
+        //check main screen
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
-        }else {
-            setContentView(R.layout.activity_login);
         }
+
+        setContentView(R.layout.activity_login);
+
+        //set toolbae
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
 
-//        helper = new DatabaseHelper(this);
-//        loginButton = (LoginButton)findViewById(R.id.login_button);
-//        signin = (Button)findViewById(R.id.signIn);
-//        signup = (TextView) findViewById(R.id.signUp);
-//        email = (EditText)findViewById(R.id.inputEmail);
-//        pass = (EditText)findViewById(R.id.inputPassword);
         firebaseAuth = FirebaseAuth.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         callbackManager = CallbackManager.Factory.create();
-        //tf = Typeface.createFromAsset(getAssets(),"RECOGNITION.ttf");
-        //textView.setTypeface(tf);
 
         firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -96,17 +88,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
+        //button signin
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 emailStr = email.getText().toString();
                 final String passStr = pass.getText().toString();
 
+                //check input text
                 if(TextUtils.isEmpty(emailStr)){
                     email.setError("Enter email address!");
                 }else if(TextUtils.isEmpty(passStr)){
                     pass.setError("Enter password!");
                 }else{
+                    //sign to firebase
                     firebaseAuth.signInWithEmailAndPassword(emailStr, passStr)
                             .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -118,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.makeText(LoginActivity.this, "Email or Password is Wrong!", Toast.LENGTH_LONG).show();
                                         }
                                     } else {
+                                        Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         finish();
@@ -125,22 +121,10 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                 }
-
-
-//                String password = helper.searchPass(passStr);
-
-//                if(passStr.equals(password)){
-//                    ActivityCompat.finishAffinity(LoginActivity.this);
-//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                    intent.putExtra("email",emailStr);
-//                    startActivity(intent);
-//                }else{
-//                    Toast item = Toast.makeText(LoginActivity.this, "Email or Password is Wrong!!", Toast.LENGTH_SHORT);
-//                    item.show();
-//                }
             }
         });
 
+        //button signup
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,11 +133,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //button facebook login
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-//                intent.putExtra("loginStatus", "Your id \n"+ loginResult.getAccessToken().getUserId() +
-//                        "\n"+"Your Token access \n"+loginResult.getAccessToken().getToken());
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
@@ -169,6 +152,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    //fater login facebook success
     private void handleFacebookAccessToken(AccessToken token){
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         firebaseAuth.signInWithCredential(credential)
@@ -176,14 +160,14 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "Auth Success!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
                             firebaseAuth.addAuthStateListener(firebaseAuthListener);
                             ActivityCompat.finishAffinity(LoginActivity.this);
                             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                             startActivity(intent);
                         }else{
                             LoginManager.getInstance().logOut();
-                            Toast.makeText(LoginActivity.this, "Auth Failed!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
                             firebaseAuth.removeAuthStateListener(firebaseAuthListener);
                         }
                     }
