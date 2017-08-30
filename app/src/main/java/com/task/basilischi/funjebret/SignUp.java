@@ -1,5 +1,6 @@
 package com.task.basilischi.funjebret;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,6 +21,8 @@ public class SignUp extends AppCompatActivity {
     String nameStr, unameStr, emailStr, passStr, repassStr;
     Button signup;
     FirebaseAuth auth;
+    Typeface myFont;
+    TextView textSignup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,9 @@ public class SignUp extends AppCompatActivity {
         repass = (EditText)findViewById(R.id.repass);
         signup = (Button)findViewById(R.id.signup);
         auth = FirebaseAuth.getInstance();
+        textSignup = (TextView)findViewById(R.id.textsignup);
+        myFont = Typeface.createFromAsset(getAssets(),"fonts/fontFunJebret.otf");
+        textSignup.setTypeface(myFont);
 
         //button signup
         signup.setOnClickListener(new View.OnClickListener() {
