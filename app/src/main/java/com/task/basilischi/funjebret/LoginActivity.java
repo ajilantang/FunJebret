@@ -60,10 +60,9 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
+        }else {
+            setContentView(R.layout.activity_login);
         }
-
-        setContentView(R.layout.activity_login);
-
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -107,24 +106,26 @@ public class LoginActivity extends AppCompatActivity {
                     email.setError("Enter email address!");
                 }else if(TextUtils.isEmpty(passStr)){
                     pass.setError("Enter password!");
-                }
-                firebaseAuth.signInWithEmailAndPassword(emailStr, passStr)
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (!task.isSuccessful()) {
-                                    if (passStr.length() < 6) {
-                                        pass.setError("Password too Short!");
+                }else{
+                    firebaseAuth.signInWithEmailAndPassword(emailStr, passStr)
+                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (!task.isSuccessful()) {
+                                        if(passStr.length() < 6){
+                                            pass.setError("Password too Short!");
+                                        }else {
+                                            Toast.makeText(LoginActivity.this, "Email or Password is Wrong!", Toast.LENGTH_LONG).show();
+                                        }
                                     } else {
-                                        Toast.makeText(LoginActivity.this, "Email or Password is Wrong!", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
                                     }
-                                } else {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
                                 }
-                            }
-                        });
+                            });
+                }
+
 
 //                String password = helper.searchPass(passStr);
 
