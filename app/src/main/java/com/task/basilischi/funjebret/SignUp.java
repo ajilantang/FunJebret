@@ -18,7 +18,7 @@ public class SignUp extends AppCompatActivity {
     EditText name, uname, email, pass, repass;
     String nameStr, unameStr, emailStr, passStr, repassStr;
     Button signup;
-    DatabaseHelper helper;
+//    DatabaseHelper helper;
     FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class SignUp extends AppCompatActivity {
         pass = (EditText)findViewById(R.id.pass);
         repass = (EditText)findViewById(R.id.repass);
         signup = (Button)findViewById(R.id.signup);
-        helper = new DatabaseHelper(this);
+//        helper = new DatabaseHelper(this);
         auth = FirebaseAuth.getInstance();
 
         signup.setOnClickListener(new View.OnClickListener() {
