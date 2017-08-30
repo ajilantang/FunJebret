@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 //    Typeface tf;
 
     String emailStr;
-    DatabaseHelper helper;
+    //DatabaseHelper helper;
     CallbackManager callbackManager;
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
@@ -56,19 +56,24 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        setContentView(R.layout.activity_login);
-
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }else {
+            setContentView(R.layout.activity_login);
+        }
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
 
-        helper = new DatabaseHelper(this);
-        loginButton = (LoginButton)findViewById(R.id.login_button);
-        signin = (Button)findViewById(R.id.signIn);
-        signup = (TextView) findViewById(R.id.signUp);
-        email = (EditText)findViewById(R.id.inputEmail);
-        pass = (EditText)findViewById(R.id.inputPassword);
+//        helper = new DatabaseHelper(this);
+//        loginButton = (LoginButton)findViewById(R.id.login_button);
+//        signin = (Button)findViewById(R.id.signIn);
+//        signup = (TextView) findViewById(R.id.signUp);
+//        email = (EditText)findViewById(R.id.inputEmail);
+//        pass = (EditText)findViewById(R.id.inputPassword);
         firebaseAuth = FirebaseAuth.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -101,24 +106,26 @@ public class LoginActivity extends AppCompatActivity {
                     email.setError("Enter email address!");
                 }else if(TextUtils.isEmpty(passStr)){
                     pass.setError("Enter password!");
-                }
-                firebaseAuth.signInWithEmailAndPassword(emailStr, passStr)
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (!task.isSuccessful()) {
-                                    if (passStr.length() < 6) {
-                                        pass.setError("Password too Short!");
+                }else{
+                    firebaseAuth.signInWithEmailAndPassword(emailStr, passStr)
+                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (!task.isSuccessful()) {
+                                        if(passStr.length() < 6){
+                                            pass.setError("Password too Short!");
+                                        }else {
+                                            Toast.makeText(LoginActivity.this, "Email or Password is Wrong!", Toast.LENGTH_LONG).show();
+                                        }
                                     } else {
-                                        Toast.makeText(LoginActivity.this, "Email or Password is Wrong!", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
                                     }
-                                } else {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
                                 }
-                            }
-                        });
+                            });
+                }
+
 
 //                String password = helper.searchPass(passStr);
 

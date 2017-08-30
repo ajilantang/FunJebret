@@ -65,7 +65,8 @@
         android:textColor="#fff"
         android:text="Login"/>
 
-    <TextView android:id="@+id/signUp"
+    <TextView
+        android:id="@+id/signUp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="No account yet? Sign Up"
