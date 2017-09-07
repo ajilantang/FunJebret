@@ -1,5 +1,6 @@
 package com.task.basilischi.funjebret;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        //set toolbae
+        //set toolbar
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -70,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
+        progress = new ProgressDialog(this);
         callbackManager = CallbackManager.Factory.create();
 
         firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -87,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
                 // ...
             }
         };
-
         //button signin
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,16 +101,18 @@ public class LoginActivity extends AppCompatActivity {
                     email.setError("Enter email address!");
                 }else if(TextUtils.isEmpty(passStr)){
                     pass.setError("Enter password!");
-                }else{
+                }else {
+                    progress.setMessage("Login Please Wait...");
+                    progress.show();
                     //sign to firebase
                     firebaseAuth.signInWithEmailAndPassword(emailStr, passStr)
                             .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (!task.isSuccessful()) {
-                                        if(passStr.length() < 6){
+                                        if (passStr.length() < 6) {
                                             pass.setError("Password too Short!");
-                                        }else {
+                                        } else {
                                             Toast.makeText(LoginActivity.this, "Email or Password is Wrong!", Toast.LENGTH_LONG).show();
                                         }
                                     } else {
@@ -118,6 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                                         startActivity(intent);
                                         finish();
                                     }
+                                    progress.dismiss();
                                 }
                             });
                 }

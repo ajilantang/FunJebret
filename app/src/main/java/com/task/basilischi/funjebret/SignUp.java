@@ -1,5 +1,6 @@
 package com.task.basilischi.funjebret;
 
+import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +24,7 @@ public class SignUp extends AppCompatActivity {
     FirebaseAuth auth;
     Typeface myFont;
     TextView textSignup;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class SignUp extends AppCompatActivity {
         repass = (EditText)findViewById(R.id.repass);
         signup = (Button)findViewById(R.id.signup);
         auth = FirebaseAuth.getInstance();
+        progress = new ProgressDialog(this);
         textSignup = (TextView)findViewById(R.id.textsignup);
         myFont = Typeface.createFromAsset(getAssets(),"fonts/fontFunJebret.otf");
         textSignup.setTypeface(myFont);
@@ -66,6 +69,8 @@ public class SignUp extends AppCompatActivity {
                     repass.setError("Password Not Same!");
                 }else {
                     //create account in firebase
+                    progress.setMessage("Registering Please Wait...");
+                    progress.show();
                     auth.createUserWithEmailAndPassword(emailStr, passStr)
                             .addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -76,6 +81,7 @@ public class SignUp extends AppCompatActivity {
                                         Toast.makeText(SignUp.this, "Signup Success!!", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
+                                    progress.dismiss();
                                 }
                             });
                 }
